@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Helmet} from "react-helmet";
+import fetchHello from '../actions/ff'
 import logo from '../images/logo.svg';
 import '../styles/App.css';
 
 class App extends Component {
   render() {
+    fetchHello();
     return (
       <div className="App">
         <Helmet>
