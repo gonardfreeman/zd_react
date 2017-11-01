@@ -1,0 +1,7 @@
+# dependencies
+/zruchna-fe/node_modules
+# testing
+/zruchna-fe/coverage
+
+# production
+/zruchna-fe/build
