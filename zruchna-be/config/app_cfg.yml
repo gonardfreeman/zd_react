@@ -1,0 +1,7 @@
+db:
+  database: 'zruchna_react'
+  host: 'localhost'
+  pwd: 'Kkl54fbz25!'
+  user: 'root'
+  port: 3306
+

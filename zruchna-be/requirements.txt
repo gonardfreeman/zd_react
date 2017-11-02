@@ -1,1 +1,5 @@
 aiohttp
+graphene>=2.0
+sqlalchemy
+aiomysql
+graphene_sqlalchemy
