@@ -26,7 +26,7 @@ class App extends Component {
           <ConnectedRouter history={history}>
           <div>
             <Route exact path="/" component={WithData} />
-            <Route path="/test" component={SecondView} />
+            <Route path="/choice/:id" component={SecondView} />
           </div>
           </ConnectedRouter>
         </ApolloProvider>

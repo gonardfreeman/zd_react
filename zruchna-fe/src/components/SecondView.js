@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+// import { Link } from 'react-router-dom';
 
-class SecondView extends Component {
-    constructor(props){
-        super(props);
-        this.goBack = this.goBack.bind(this);
-    }
-    goBack(){
-        this.props.history.push('/')
-    }
+class SecondViewWOData extends Component {
     render(){
-        return (
-            <div>
-                <h1>Second hello</h1>
-                <Link to="/">click</Link>
-            </div>
-        )
+        const {loading, error, choice} = this.props.data
+        if (loading){
+            return <p>Loading...</p>
+        }
+        if(error){
+            return <p>{error.message}</p>
+        }
+        return <h1>{choice.choiceText}</h1>
     }
 }
-
+const firstQuery = gql`
+query test($id: ID!){
+    choice(id:$id){
+        choiceText
+    }
+  }
+`
+const SecondView = graphql(firstQuery,{
+    options: props => ({
+        variables: {
+            id: props.match.params.id
+        }
+    })
+})(SecondViewWOData)
 export default SecondView;

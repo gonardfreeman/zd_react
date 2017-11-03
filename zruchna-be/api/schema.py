@@ -19,6 +19,8 @@ class Choice(SQLAlchemyObjectType):
 
 class Query(graphene.ObjectType):
     node = relay.Node.Field()
+    choice = relay.Node.Field(Choice)
+    question = relay.Node.Field(Question)
     all_choices = SQLAlchemyConnectionField(Choice)
 
 
