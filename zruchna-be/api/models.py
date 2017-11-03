@@ -13,7 +13,7 @@ db_conf = conf['db']
 engine = create_engine("mysql://root:Kkl54fbz25!@localhost/zruchna_react")
 db_session = scoped_session(
     sessionmaker(
-        autocommit=False,
+        autocommit=True,
         autoflush=False,
         bind=engine
     )
