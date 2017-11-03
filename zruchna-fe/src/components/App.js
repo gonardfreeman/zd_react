@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
-import {Helmet} from "react-helmet";
-import fetchHello from '../actions/ff'
-import logo from '../images/logo.svg';
-import '../styles/App.css';
+// import {Helmet} from "react-helmet";
+import { Provider } from 'react-redux';
+import { Route } from 'react-router';
+import { ApolloProvider } from 'react-apollo';
+
+import { ConnectedRouter,routerMiddleware } from 'react-router-redux/es';
+import createHistory from 'history/createBrowserHistory';
+
+import client from '../apolloClient'
+import configureStore from '../store/configureStore';
+
+import WithData from './WithData'
+import SecondView from './SecondView'
+
+const history = createHistory();
+const middleware = routerMiddleware(history);
+const store = configureStore(middleware);
+
 
 class App extends Component {
   render() {
-    fetchHello();
     return (
-      <div className="App">
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>My Title</title>
-          <link rel="canonical" href="http://mysite.com/example" />
-        </Helmet>
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <ConnectedRouter history={history}>
+          <div>
+            <Route exact path="/" component={WithData} />
+            <Route path="/test" component={SecondView} />
+          </div>
+          </ConnectedRouter>
+        </ApolloProvider>
+      </Provider>
     );
   }
 }

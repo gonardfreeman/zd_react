@@ -1,5 +1,6 @@
-from views import index
+from views import MainViews
 
 
 def setup_routes(app):
-    app.router.add_post('/api', index)
+    views = MainViews()
+    app.router.add_post('/api', views.index)

@@ -1,14 +1,16 @@
-import logging
+from asyncio import coroutine
 from api.schema import schema
 from aiohttp import web
 
-logger = logging.getLogger(__name__)
 
+class MainViews:
+    @coroutine
+    async def index(self, request):
+        req = await request.json()
+        data = schema.execute(req['query'])
+        result = dict(
+            data=data.data,
+            errors=data.errors
+        )
 
-async def index(request):
-    # logger.error(request.text())
-    req = await request.json()
-    data = schema.execute(req['query'])
-    logger.error(data.errors)
-    # logger.error(req)
-    return web.json_response(data.data)
+        return web.json_response(result)
