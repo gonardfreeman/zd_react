@@ -46,4 +46,9 @@ class AuthUserPermissionsNode(SQLAlchemyObjectType):
 
 class AuthUserQuery(ObjectType):
     auth_user = relay.Node.Field(AuthUserNode)
-    all_auth_users = CustomConnectionField(AuthUserNode)
+    all_auth_users = CustomConnectionField(
+        AuthUserNode,
+        user_name=String(),
+        password=String(),
+        is_active=Boolean()
+    )

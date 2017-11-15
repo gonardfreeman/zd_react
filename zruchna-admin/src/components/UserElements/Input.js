@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   loginInputChange,
   passwordInputChange
-} from '../../actions/loginActions';
+} from '../../actions/login/loginActions';
 
 import '../../styles/elements/Inputs.css';
 

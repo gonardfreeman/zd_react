@@ -17,3 +17,5 @@ def setup_routes(app):
     views = MainViews()
     app.router.add_post('/api', views.index)
     app.router.add_route('GET', '/', handler)
+    app.router.add_post('/login', views.login)
+    app.router.add_post('/fetch_app', views.login)

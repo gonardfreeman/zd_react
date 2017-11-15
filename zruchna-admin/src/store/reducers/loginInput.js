@@ -1,7 +1,7 @@
 import {
   LOGIN_INPUT_CHANGE,
   PASSWORD_INPUT_CHANGE
-} from '../../actions/loginActions';
+} from '../../actions/login/loginActions';
 
 const defaultState = {
   login: null,
