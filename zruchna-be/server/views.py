@@ -1,5 +1,5 @@
 from asyncio import coroutine
-from api.schema import schema
+from schema.schema import schema
 from aiohttp import web
 
 

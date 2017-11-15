@@ -1,5 +1,5 @@
 from aiomysql.sa import create_engine
-import api.models
+import models.init_models
 
 
 def load_config(path):
@@ -22,7 +22,7 @@ async def init_db(app):
 
 async def close_db(app):
     app['db'].close()
-    api.models.db_session.remove()
+    models.init_models.db_session.remove()
     await app['db'].wait_closed()
 
 

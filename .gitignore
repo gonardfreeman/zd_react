@@ -1,7 +1,12 @@
 # dependencies
-/zruchna-fe/node_modules
+/zruchna-fe/node_modules/
+/zruchna-admin/node_modules/
+/zruchna-admin/build/
 # testing
-/zruchna-fe/coverage
+/zruchna-fe/coverage/
 
 # production
-/zruchna-fe/build
+/zruchna-fe/build/
+
+#opt
+/.vscode/
