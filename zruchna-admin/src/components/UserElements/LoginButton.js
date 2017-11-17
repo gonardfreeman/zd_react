@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { fetchLogin } from '../../actions/fetching/fetchLogged';
+import login from '../../store/reducers/loginReducers';
 
 class LoginButton extends Component {
   constructor(props) {
@@ -6,16 +10,74 @@ class LoginButton extends Component {
     this.login = this.login.bind(this);
   }
   login() {
-    console.log('test');
+    const { login, password } = this.props.loginInput;
+    let data = {
+      login: !login ? '' : login,
+      password: !password ? '' : password
+    };
+    this.props.loginFn(data);
   }
   render() {
-    const text = this.props.text;
+    const { text } = this.props;
+    const result = login_data => {
+      if (!login_data.is_fetching && !login_data.error && !login.is_logged) {
+        return (
+          <div>
+            <button onClick={this.login}>{text} Test</button>
+          </div>
+        );
+      }
+      if (login_data.is_fetching) {
+        return (
+          <div>
+            <p>Loading...</p>
+          </div>
+        );
+      }
+      if (!login_data.is_logged && !!login_data.error) {
+        return (
+          <div>
+            <button onClick={this.login}>{text}</button>
+            <p className="error">{login_data.error}</p>
+          </div>
+        );
+        if (
+          login.is_logged &&
+          !login.is_fetching &&
+          login_data.error.length < 1
+        ) {
+          return (
+            <div>
+              <button onClick={this.login}>{text}</button>
+              <p className="success">Success</p>
+            </div>
+          );
+        }
+      }
+    };
     return (
       <div>
-        <button onClick={this.login}>{text}</button>
+        {/* <button onClick={this.login}>{text}</button> */}
+        {result(this.props.login)}
       </div>
     );
   }
 }
 
-export default LoginButton;
+function mapStateToProps(state) {
+  const { loginInput, login } = state;
+  return {
+    loginInput,
+    login
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    loginFn: data => {
+      dispatch(fetchLogin(data));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
