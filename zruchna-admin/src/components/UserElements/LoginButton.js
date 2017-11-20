@@ -21,27 +21,32 @@ class LoginButton extends Component {
         const { text } = this.props;
         console.log(this.props.login)
         const result = login_data => {
-            if (!login_data.is_fetching && !login_data.error && !login.is_logged) {
-                return (
-                    <div>
-                        <button onClick={this.login}>{text} Test</button>
-                    </div>
-                );
-            }
-            if (login_data.is_fetching) {
-                return (
-                    <div>
-                        <p>Loading...</p>
-                    </div>
-                );
-            }
-            if (!login_data.is_logged && !!login_data.error) {
+            if (!login_data.error && !login_data.is_logged && !login_data.is_fetching) {
                 return (
                     <div>
                         <button onClick={this.login}>{text}</button>
-                        <p className="error">{login_data.error}</p>
                     </div>
-                );
+                )
+            }
+            if (login_data.is_fetching) {
+                return (
+                    <p>Loading...</p>
+                )
+            }
+            if (login_data.error && !login_data.is_fetching) {
+                return (
+                    <div>
+                        <button onClick={this.login}>{text}</button>
+                        <p className="error">{login_data.error_msg}</p>
+                    </div>
+                )
+            }
+            if (login_data.is_logged && !login_data.is_fetching) {
+                return (
+                    <div>
+                        <p className="success">Logged</p>
+                    </div>
+                )
             }
         };
         return <div>{result(this.props.login)}</div>;

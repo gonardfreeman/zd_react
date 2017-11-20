@@ -33,12 +33,14 @@ export default function login(state = default_state, action) {
         return Object.assign({}, state, {
             is_fetching: false,
             is_logged: false,
-            error: action.why
+            error: true,
+            error_msg: action.why
         });
     case LOGIN_SUCCESS:
         return Object.assign({}, state, {
             is_fetching: false,
-            is_logged: true
+            is_logged: true,
+            error: false
         });
     default:
         return state;
