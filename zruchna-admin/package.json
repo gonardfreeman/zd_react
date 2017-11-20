@@ -24,8 +24,9 @@
     "redux-thunk": "^2.2.0"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
+    "src/**/*.{js,jsx}": [
       "prettier --single-quote --write",
+      "eslint --fix",
       "git add"
     ]
   },

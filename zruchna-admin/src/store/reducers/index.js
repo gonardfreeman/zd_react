@@ -7,11 +7,11 @@ import fetchApp from './fetchReducer';
 import login from './loginReducers';
 
 const rootReducer = combineReducers({
-  routing: routerReducer,
-  fetchApp: fetchApp,
-  loginInput: changeInput,
-  login: login,
-  session: sessionReducer
+    routing: routerReducer,
+    fetchApp: fetchApp,
+    loginInput: changeInput,
+    login: login,
+    session: sessionReducer
 });
 
 export default rootReducer;
