@@ -9,15 +9,22 @@ class LoginButton extends Component {
         super(props);
         this.login = this.login.bind(this);
     }
-    login() {
+    async login() {
         const { login, password } = this.props.loginInput;
         let data = {
             login: !login ? '' : login,
             password: !password ? '' : password
         };
-        this.props.loginFn(data);
+        try {
+            await this.props.loginFn(data);
+            this.props.history.push("/logged");
+        } catch (e) {
+            alert(e)
+        }
+        
     }
     render() {
+        console.log(this.props)
         const { text, is_logged } = this.props;
         
         const result = login_data => {
@@ -54,10 +61,11 @@ class LoginButton extends Component {
 }
 
 function mapStateToProps(state) {
-    const { loginInput, login } = state;
+    const { loginInput, login, routing } = state;
     return {
         loginInput,
-        login
+        login,
+        routing
     };
 }
 
