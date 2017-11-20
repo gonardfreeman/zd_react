@@ -4,7 +4,7 @@ import base64
 from pathlib import Path
 from cryptography import fernet
 from aiohttp import web
-from aiohttp_session import setup
+from aiohttp_session import setup, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 from aiohttp_graphql import GraphQLView
@@ -19,9 +19,15 @@ loop = asyncio.get_event_loop()
 
 
 def make_app():
-    app = web.Application(loop=loop)
     fernet_key = fernet.Fernet.generate_key()
     secret_key = base64.urlsafe_b64decode(fernet_key)
+    storage = EncryptedCookieStorage(secret_key=secret_key)
+    session_midl = session_middleware(storage)
+    middlewares = [
+        session_midl
+    ]
+    app = web.Application(loop=loop, middlewares=middlewares)
+
     setup(app, EncryptedCookieStorage(secret_key=secret_key))
     app.on_startup.append(init_db)
     GraphQLView.attach(app, schema=schema, graphiql=True, enable_async=True)

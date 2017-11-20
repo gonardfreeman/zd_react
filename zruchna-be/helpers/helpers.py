@@ -33,6 +33,7 @@ def check_user_req(schema, data):
           allAuthUsers(userName:"%s", isActive: true){
             edges{
               node{
+                ID
                 userName
                 password
                 isSuperuser

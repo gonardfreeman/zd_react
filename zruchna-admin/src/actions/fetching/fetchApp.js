@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { sessionService } from 'redux-react-session';
+// import { sessionService } from 'redux-react-session';
 
 import { MAINSITE } from '../../config/config';
 
@@ -30,17 +30,14 @@ function fetchError(data) {
 export function fetchApp() {
   return dispath => {
     dispath(fetchRequest());
-    return fetch(`http://${MAINSITE}/fetch`)
+    return fetch(`http://${MAINSITE}/fetch`, {
+      credentials: 'include'
+    })
       .then(resp => {
-        const { token } = resp;
-        console.log(token);
-        console.log(resp);
         if (resp.status >= 400) return dispath(fetchError(resp));
         return resp.json();
       })
       .then(json => {
-        const { token } = resp;
-        console.log(token);
         console.log(json);
         return dispath(fetchSucces(json));
       });

@@ -50,7 +50,8 @@ export function fetchLogin(data) {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      credentials: 'include'
     })
       .then(resp => {
         if (resp.status >= 400) return dispatch(fetchLoginError(resp));
