@@ -19,6 +19,7 @@ class LoginButton extends Component {
     }
     render() {
         const { text } = this.props;
+        console.log(this.props.login)
         const result = login_data => {
             if (!login_data.is_fetching && !login_data.error && !login.is_logged) {
                 return (
