@@ -68,7 +68,9 @@ class MainViews:
         # logger.error(session)
         data = {
             'user_id': session['user_id'] if 'user_id' in session else None,
-            'user_name': session['user_name'] if 'user_name' in session else None
+            'user_name': session['user_name'] if 'user_name' in session else None,
+            'last_visit': session['last_visit'] if 'last_visit' in session else None,
+            'is_logged': True if 'user_id' in session and 'user_name' in session else False
         }
         # logger.error(data)
         return web.json_response(data=data)
