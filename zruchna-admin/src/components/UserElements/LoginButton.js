@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { fetchLogin } from '../../actions/fetching/fetchLogged';
-import login from '../../store/reducers/loginReducers';
+
 
 class LoginButton extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class LoginButton extends Component {
     }
     render() {
         const { text, is_logged } = this.props;
-        console.log(this.props.login)
+        
         const result = login_data => {
             if (!login_data.error && !login_data.is_logged && !login_data.is_fetching && !is_logged) {
                 return (
@@ -41,10 +41,10 @@ class LoginButton extends Component {
                     </div>
                 )
             }
-            if (is_logged) {
+            if (is_logged || (login_data.is_logged && !login_data.is_fetching)) {
                 return (
                     <div>
-                        <p className="success">Logged</p>
+                        <p className="success">Login success</p>
                     </div>
                 )
             }

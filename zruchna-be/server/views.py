@@ -2,7 +2,9 @@ from asyncio import coroutine
 from schema.schema import schema
 from aiohttp import web
 from aiohttp_session import get_session
-from aiohttp_session import AbstractStorage
+
+from time import time
+from datetime import datetime
 
 from helpers.helpers import check_user_req
 from logging import getLogger
@@ -27,6 +29,7 @@ class MainViews:
     async def login(self, request):
         session = await get_session(request)
         req = await request.json()
+        session['last_visit'] = str(datetime.now())
 
         if len(req['login']) == 0:
             data = {

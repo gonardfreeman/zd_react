@@ -7,6 +7,7 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux/es';
 import createHistory from 'history/createBrowserHistory';
 
 import Login from './Login';
+import Logged from './Logged'
 
 import '../styles/pages/App.css';
 
@@ -18,19 +19,20 @@ const middleware = routerMiddleware(history);
 const store = configureStore(middleware);
 
 class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <ConnectedRouter history={history}>
-            <div className="wrapper">
-              <Route exact path="/" component={Login} />
-            </div>
-          </ConnectedRouter>
-        </ApolloProvider>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <ApolloProvider client={client}>
+                    <ConnectedRouter history={history}>
+                        <div className="wrapper">
+                            <Route exact path="/" component={Login} />
+                            <Route exact path="/logged" component={Logged} />
+                        </div>
+                    </ConnectedRouter>
+                </ApolloProvider>
+            </Provider>
+        );
+    }
 }
 
 export default App;

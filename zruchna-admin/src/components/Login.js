@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Input from './UserElements/Input';
 import LoginButton from './UserElements/LoginButton';
 
+import Logged from './Logged'
+
 import { fetchApp } from '../actions/fetching/fetchApp';
 
 import '../styles/pages/login.css';
@@ -46,6 +48,13 @@ class Login extends Component {
                     <p>Error message: {this.props.fetchApp.error.statusText}</p>
                 </div>
             );
+        }
+        if (!is_fetching && is_logged) {
+            return (
+                <div>
+                    <Logged app_data={this.props.fetchApp}/>
+                </div>
+            )
         }
         return (
             <div className="login_form">
