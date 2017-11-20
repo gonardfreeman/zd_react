@@ -26,51 +26,7 @@ class Login extends Component {
             }
         };
         const { user_name, is_fetching, error, last_visit, is_logged } = this.props.fetchApp;
-        const last_visit_el = last_visit => {
-            if (!last_visit) {
-                return <p>We can't indetify you :(</p>;
-            } else {
-                return (
-                    <p className="last_visit">
-            Your last visit was{' '}
-                        <span>{!last_visit ? 'long time ago' : last_visit}</span>
-                    </p>
-                );
-            }
-        };
-        if (!error && is_fetching) {
-            return <h1>Loading...</h1>;
-        }
-        if (error && !is_fetching) {
-            return (
-                <div className="error">
-                    <h1>Error, status {this.props.fetchApp.error.status}</h1>
-                    <p>Error message: {this.props.fetchApp.error.statusText}</p>
-                </div>
-            );
-        }
-        if (!is_fetching && is_logged) {
-            return (
-                <div>
-                    <Logged app_data={this.props.fetchApp}/>
-                </div>
-            )
-        }
-        return (
-            <div className="login_form">
-                <h1 className="login_header">
-          Welcome, {!user_name ? 'stranger' : user_name} to admin-site of
-          ZRUCHNA!
-                </h1>
-                {last_visit_el(last_visit)}
-
-                <div className="form">
-                    <Input opts={inputs.login} />
-                    <Input opts={inputs.password} />
-                    <LoginButton text="Login" is_logged={is_logged}/>
-                </div>
-            </div>
-        );
+        return <p>Test</p>
     }
 }
 

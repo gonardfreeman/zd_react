@@ -24,7 +24,6 @@ class LoginButton extends Component {
         
     }
     render() {
-        console.log(this.props)
         const { text, is_logged } = this.props;
         
         const result = login_data => {

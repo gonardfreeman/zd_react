@@ -6,10 +6,13 @@ import { ApolloProvider } from 'react-apollo';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux/es';
 import createHistory from 'history/createBrowserHistory';
 
-import Login from './Login';
-import Logged from './Logged'
+import MainPage from './Pages/MainPage';
+// import Login from './Login';
+import Logged from './Logged';
+import PrivateRoute from './LoginRoute/PrivateRoute';
 
 import '../styles/pages/App.css';
+
 
 import client from '../apolloClient';
 import configureStore from '../store/configureStore';
@@ -25,8 +28,8 @@ class App extends Component {
                 <ApolloProvider client={client}>
                     <ConnectedRouter history={history}>
                         <div className="wrapper">
-                            <Route exact path="/" component={Login} />
-                            <Route exact path="/logged" component={Logged} />
+                            <Route exact path="/" component={MainPage} />
+                            <PrivateRoute path="/logged" component={Logged}/>
                         </div>
                     </ConnectedRouter>
                 </ApolloProvider>

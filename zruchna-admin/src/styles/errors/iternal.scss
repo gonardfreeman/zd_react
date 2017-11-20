@@ -1,0 +1,17 @@
+.iternal_error {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    h1 {
+        font-size: 36px;
+        color: #263234;
+    }
+    p {
+        font-size: 32px;
+        font-weight: bold;
+        text-decoration: underline;
+        .error_status {
+            color: #ef6363;
+        }
+    }
+}
