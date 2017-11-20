@@ -8,38 +8,37 @@ export const FETCH_APP_SUCCESS = 'FETCH_APP_SUCCESS';
 export const FETCH_APP_ERROR = 'FETCH_APP_ERROR';
 
 export function fetchRequest() {
-  return {
-    type: FETCH_APP_REQUEST
-  };
+    return {
+        type: FETCH_APP_REQUEST
+    };
 }
 
 export function fetchSucces(data) {
-  return {
-    type: FETCH_APP_SUCCESS,
-    data
-  };
+    return {
+        type: FETCH_APP_SUCCESS,
+        data
+    };
 }
 
 function fetchError(data) {
-  return {
-    type: FETCH_APP_ERROR,
-    data
-  };
+    return {
+        type: FETCH_APP_ERROR,
+        data
+    };
 }
 
 export function fetchApp() {
-  return dispath => {
-    dispath(fetchRequest());
-    return fetch(`http://${MAINSITE}/fetch`, {
-      credentials: 'include'
-    })
-      .then(resp => {
-        if (resp.status >= 400) return dispath(fetchError(resp));
-        return resp.json();
-      })
-      .then(json => {
-        console.log(json);
-        return dispath(fetchSucces(json));
-      });
-  };
+    return dispath => {
+        dispath(fetchRequest());
+        return fetch(`http://${MAINSITE}/fetch`, {
+            credentials: 'include'
+        })
+            .then(resp => {
+                if (resp.status >= 400) return dispath(fetchError(resp));
+                return resp.json();
+            })
+            .then(json => {
+                return dispath(fetchSucces(json));
+            });
+    };
 }
