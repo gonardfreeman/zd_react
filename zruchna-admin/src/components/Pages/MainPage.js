@@ -25,10 +25,14 @@ class MainPage extends Component {
                 type: 'password'
             }
         };
-        const { user_name, is_fetching, error, last_visit, is_logged } = this.props.fetchApp;
+        
+        const { user_name, is_fetching, error, is_logged } = this.props.fetchApp;
         if (is_logged && !is_fetching) {
             return (
-                <Redirect to="/logged"/>
+                <Redirect to={{
+                    pathname: "/logged",
+                    state: {from: this.props.location}
+                }}/>
             )
         }
         if (is_fetching) {

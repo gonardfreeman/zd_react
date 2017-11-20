@@ -7,9 +7,8 @@ import { ConnectedRouter, routerMiddleware } from 'react-router-redux/es';
 import createHistory from 'history/createBrowserHistory';
 
 import MainPage from './Pages/MainPage';
-// import Login from './Login';
 import Logged from './Logged';
-import PrivateRoute from './LoginRoute/PrivateRoute';
+// import PrivateRoute from './LoginRoute/PrivateRoute';
 
 import '../styles/pages/App.css';
 
@@ -29,7 +28,7 @@ class App extends Component {
                     <ConnectedRouter history={history}>
                         <div className="wrapper">
                             <Route exact path="/" component={MainPage} />
-                            <PrivateRoute path="/logged" component={Logged}/>
+                            <Route path="/logged" component={Logged}/>
                         </div>
                     </ConnectedRouter>
                 </ApolloProvider>

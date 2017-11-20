@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 
 class Logged extends Component {
     render() {
-        const {user_name, last_visit} = this.props.fetchApp;
+        const {user_name, last_visit, is_logged} = this.props.fetchApp;
+        if (!is_logged) {
+            return <Redirect to={{
+                pathname: "/",
+                state: {from: this.props.location}
+            }}/>
+        }
         return (
             <div>
                 <div className="title">
@@ -15,6 +22,7 @@ class Logged extends Component {
                 </div>
             </div>
         )
+        
     }
 }
 

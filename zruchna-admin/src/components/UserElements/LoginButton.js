@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { fetchLogin } from '../../actions/fetching/fetchLogged';
+
 
 
 class LoginButton extends Component {
@@ -17,7 +19,6 @@ class LoginButton extends Component {
         };
         try {
             await this.props.loginFn(data);
-            this.props.history.push("/logged");
         } catch (e) {
             alert(e)
         }
@@ -49,9 +50,7 @@ class LoginButton extends Component {
             }
             if (is_logged || (login_data.is_logged && !login_data.is_fetching)) {
                 return (
-                    <div>
-                        <p className="success">Login success</p>
-                    </div>
+                    <Redirect to='/logged'/>
                 )
             }
         };
