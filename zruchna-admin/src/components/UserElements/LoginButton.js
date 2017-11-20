@@ -41,18 +41,6 @@ class LoginButton extends Component {
                         <p className="error">{login_data.error}</p>
                     </div>
                 );
-                if (
-                    login.is_logged &&
-          !login.is_fetching &&
-          login_data.error.length < 1
-                ) {
-                    return (
-                        <div>
-                            <button onClick={this.login}>{text}</button>
-                            <p className="success">Success</p>
-                        </div>
-                    );
-                }
             }
         };
         return <div>{result(this.props.login)}</div>;
