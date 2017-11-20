@@ -18,10 +18,10 @@ class LoginButton extends Component {
         this.props.loginFn(data);
     }
     render() {
-        const { text } = this.props;
+        const { text, is_logged } = this.props;
         console.log(this.props.login)
         const result = login_data => {
-            if (!login_data.error && !login_data.is_logged && !login_data.is_fetching) {
+            if (!login_data.error && !login_data.is_logged && !login_data.is_fetching && !is_logged) {
                 return (
                     <div>
                         <button onClick={this.login}>{text}</button>
@@ -41,7 +41,7 @@ class LoginButton extends Component {
                     </div>
                 )
             }
-            if (login_data.is_logged && !login_data.is_fetching) {
+            if (is_logged) {
                 return (
                     <div>
                         <p className="success">Logged</p>

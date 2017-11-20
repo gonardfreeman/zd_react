@@ -23,7 +23,7 @@ class Login extends Component {
                 type: 'password'
             }
         };
-        const { user_name, is_fetching, error, last_visit } = this.props.fetchApp;
+        const { user_name, is_fetching, error, last_visit, is_logged } = this.props.fetchApp;
         const last_visit_el = last_visit => {
             if (!last_visit) {
                 return <p>We can't indetify you :(</p>;
@@ -58,7 +58,7 @@ class Login extends Component {
                 <div className="form">
                     <Input opts={inputs.login} />
                     <Input opts={inputs.password} />
-                    <LoginButton text="Login" />
+                    <LoginButton text="Login" is_logged={is_logged}/>
                 </div>
             </div>
         );
