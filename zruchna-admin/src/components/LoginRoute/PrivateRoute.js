@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 const PrivateRoute = ({component: Component, ...rest}) => (
     <Route {...rest} render={props => {
-        
+        // console.log(rest, 'rest')
         return rest.fetchApp.is_logged ? (
             <Component {...props}/>
         ) : (

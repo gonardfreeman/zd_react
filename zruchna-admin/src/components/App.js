@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router';
 import { ApolloProvider } from 'react-apollo';
+import { Redirect } from 'react-router-dom';
 
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux/es';
 import createHistory from 'history/createBrowserHistory';
 
 import MainPage from './Pages/MainPage';
 import Logged from './Logged';
-// import PrivateRoute from './LoginRoute/PrivateRoute';
+import Users from './Users';
+import PrivateRoute from './LoginRoute/PrivateRoute';
 
 import '../styles/pages/App.css';
 
@@ -20,6 +22,7 @@ const history = createHistory();
 const middleware = routerMiddleware(history);
 const store = configureStore(middleware);
 
+
 class App extends Component {
     render() {
         return (
@@ -28,7 +31,8 @@ class App extends Component {
                     <ConnectedRouter history={history}>
                         <div className="wrapper">
                             <Route exact path="/" component={MainPage} />
-                            <Route path="/logged" component={Logged}/>
+                            <PrivateRoute path="/logged" component={Logged}/>
+                            <PrivateRoute path="/users" component={Users}/>
                         </div>
                     </ConnectedRouter>
                 </ApolloProvider>
