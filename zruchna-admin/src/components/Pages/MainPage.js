@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import Input from '../UserElements/Input';
 import LoginButton from '../UserElements/LoginButton';
@@ -15,6 +15,15 @@ class MainPage extends Component {
         this.props.fetchAppRequest()
     }
     render(){
+        const { from } = this.props.location.state || { from: { pathname: '/' } }
+        const { redirectToReferrer } = this.props.fetchApp;
+        const { user_name, is_fetching, error, is_logged } = this.props.fetchApp;
+        // TODO redirect from / if logged
+        if (redirectToReferrer && is_logged) {
+            return (
+                <Redirect to={from}/>
+            )
+        }
         const inputs = {
             login: {
                 placeholder: 'Login',
@@ -26,7 +35,6 @@ class MainPage extends Component {
             }
         };
         
-        const { user_name, is_fetching, error, is_logged } = this.props.fetchApp;
         if (is_logged && !is_fetching) {
             return (
                 <Redirect to={{
@@ -50,6 +58,7 @@ class MainPage extends Component {
         }
         return (
             <div>
+                <Link to="/" className="absolute_home">Home</Link>
                 <div className="title">
                     <h1>Hello {is_logged ? user_name : "stranger"}</h1>
                 </div>

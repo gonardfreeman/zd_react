@@ -3,4 +3,10 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  position: relative;
+}
+.absolute_home {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }

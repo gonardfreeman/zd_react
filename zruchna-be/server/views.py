@@ -68,7 +68,7 @@ class MainViews:
     @coroutine
     async def fetch(self, request):
         session = await get_session(request)
-        # logger.error(session)
+        # logger.error(request.rel_url)
         data = {
             'user_id': session['user_id'] if 'user_id' in session else None,
             'user_name': session['user_name'] if 'user_name' in session else None,

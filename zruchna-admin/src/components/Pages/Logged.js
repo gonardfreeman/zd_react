@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -27,34 +27,8 @@ const additionalInfo = ({data: {allAuthUsers, error, loading}}) => {
 }
 
 class Logged extends Component {
-    state = {
-        redirectToReferrer: false
-    }
-    componentWillMount(){
-        const {is_logged} = this.props.fetchApp;
-        if (is_logged) {
-            this.setState({ redirectToReferrer: true })
-        }
-    }
     render() {
-        console.log(this.props)
-        const { from } = this.props.location.state || { from: { pathname: '/' } }
-        const { redirectToReferrer } = this.state
-        
-        if (redirectToReferrer) {
-            if (from.pathname !== '/') {
-                return (
-                    <Redirect to={from}/>
-                )
-            }
-        }
-        const {user_name, last_visit, is_logged} = this.props.fetchApp;
-        if (!is_logged) {
-            return <Redirect to={{
-                pathname: "/",
-                state: {from: this.props.location}
-            }}/>
-        }
+        const {user_name, last_visit} = this.props.fetchApp;
         return (
             <div>
                 <div className="title">
@@ -77,7 +51,7 @@ function mapStateToProps(state) {
         fetchApp
     };
 }
-const firstQuery = gql`
+const getUser = gql`
 query getUser($userName: String){
     allAuthUsers(userName:$userName){
       edges{
@@ -93,7 +67,7 @@ query getUser($userName: String){
   }
 `
 
-export default connect(mapStateToProps)(graphql(firstQuery, {
+export default connect(mapStateToProps)(graphql(getUser, {
     options: props => ({
         variables: {
             userName: props.fetchApp.user_name

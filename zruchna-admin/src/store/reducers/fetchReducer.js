@@ -10,7 +10,8 @@ const defaultState = {
     is_fetching: false,
     error: null,
     last_visit: null,
-    is_logged: false
+    is_logged: false,
+    redirectToReferrer: false,
 };
 
 export default function fetchApp(state = defaultState, action) {
@@ -26,7 +27,8 @@ export default function fetchApp(state = defaultState, action) {
             user_name: action.data.user_name,
             last_visit: action.data.last_visit,
             is_fetching: false,
-            is_logged: action.data.is_logged
+            is_logged: action.data.is_logged,
+            redirectToReferrer: true,
         });
     case FETCH_APP_ERROR:
         return Object.assign({}, state, {

@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import createLogger from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -10,7 +10,7 @@ export default function configureStore(middleware) {
     const store = createStore(
         rootReducer,
         composeWithDevTools(
-            applyMiddleware(thunkMiddleware, createLogger, middleware)
+            applyMiddleware(thunk, createLogger, middleware)
         )
     );
   

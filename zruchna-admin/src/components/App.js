@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Route } from 'react-router';
 import { ApolloProvider } from 'react-apollo';
-import { Redirect } from 'react-router-dom';
 
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux/es';
 import createHistory from 'history/createBrowserHistory';
 
 import MainPage from './Pages/MainPage';
-import Logged from './Logged';
-import Users from './Users';
-import PrivateRoute from './LoginRoute/PrivateRoute';
+import Logged from './Pages/Logged';
+import Users from './Pages/Users';
+import User from './Pages/User';
+import PrivateRoute from './CustomRoutes/PrivateRoute';
 
 import '../styles/pages/App.css';
 
@@ -32,7 +32,8 @@ class App extends Component {
                         <div className="wrapper">
                             <Route exact path="/" component={MainPage} />
                             <PrivateRoute path="/logged" component={Logged}/>
-                            <PrivateRoute path="/users" component={Users}/>
+                            <PrivateRoute exact path="/users" component={Users}/>
+                            <PrivateRoute path="/users/user/:id" component={User}/>
                         </div>
                     </ConnectedRouter>
                 </ApolloProvider>
@@ -40,5 +41,6 @@ class App extends Component {
         );
     }
 }
+
 
 export default App;
