@@ -6,7 +6,6 @@ import {
 
 const defaultState = {
     user_id: null,
-    user_name: null,
     is_fetching: false,
     error: null,
     last_visit: null,
@@ -24,7 +23,6 @@ export default function fetchApp(state = defaultState, action) {
     case FETCH_APP_SUCCESS:
         return Object.assign({}, state, {
             user_id: action.data.user_id,
-            user_name: action.data.user_name,
             last_visit: action.data.last_visit,
             is_fetching: false,
             is_logged: action.data.is_logged,

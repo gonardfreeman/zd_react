@@ -1,23 +1,40 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 
-import EditField from '../UserElements/EditField'
-import {userNameInfoInputChange} from '../../actions/inputFields/inputActions'
+import UserInfoForm from '../UserElements/Forms/EditUser'
+import { fetchApp } from '../../actions/fetching/fetchApp';
 
 class User extends Component {
-    constructor(props){
-        super(props);
-        this.changeInfo = this.changeInfo.bind(this);
+    submit = (values) => {
+        // console.log(values);
+        this.props.mutateUserById({
+            variables: {
+                id: +this.props.match.params.id,
+                userName: values.userName,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                email: values.email,
+            }
+        })
+            .then(({data})=>{
+                const {status} = data.editUserInfo;
+                if (status) {
+                    // this.props.fetchAppRequest();
+                    this.props.getUserById.fetchMore({
+                        variables: {
+                            id: this.props.fetchApp.user_id
+                        }
+                    });
+                }
+            }).catch(error => {
+                console.log('error', error)
+            })
     }
-    changeInfo(){
-        const inputs = document.querySelectorAll('.editInfo_input');
-        console.log(inputs);
-    }
+    
     render() {
-        const {allAuthUsers, loading, error } = this.props.data;
-
+        const {allAuthUsers, loading, error } = this.props.getUserById;
         if (loading) {
             return <h1>Loading...</h1>
         }
@@ -25,38 +42,14 @@ class User extends Component {
         if (error) {
             return <h1>Error: {error.message}</h1>
         }
-        const {value} = this.props.input;
-        const {userName, firstName, lastName, email} = allAuthUsers.edges[0].node;
+        // const {value} = this.props.input;
+        const {userName} = allAuthUsers.edges[0].node;
         return (
             <div>
-                <h1>Edit {value ? value : userName} info</h1>
+                <h1>Edit {userName} info</h1>
                 <div className="info_form">
-                    <EditField opt={{
-                        id: "userName",
-                        data: userName,
-                        name: "User name",
-                        func: this.props.userNameInfoInputChange
-                    }}/>
-                    <EditField opt={{
-                        id: "firstName",
-                        data:firstName,
-                        name: "First name",
-                        func: null
-                    }}/>
-                    <EditField opt={{
-                        id: "lastName",
-                        data:lastName,
-                        name: "Last name",
-                        func: null
-                    }}/>
-                    <EditField opt={{
-                        id: "email",
-                        data:email,
-                        name: "email",
-                        func: null
-                    }}/>
+                    <UserInfoForm onSubmit={this.submit} match={this.props.match} initialValues={allAuthUsers.edges[0].node}/>
                 </div>
-                <button onClick={this.changeInfo}>Edit info</button>
             </div>
         );
     }
@@ -67,37 +60,55 @@ query getAllUsers($id: Int){
     allAuthUsers(ID:$id){
       edges{
         node{
-          id
-          ID
           userName
           firstName
           lastName
           email
-          isSuperuser
         }
       }
     }
   }
 `
+const mutateUserByID = gql`
+mutation mutateUserInfo($id:Int!, $userName: String, $firstName: String, $lastName: String, $email: String) {
+    editUserInfo(userInfo:{email:$email, userName:$userName, firstName:$firstName, lastName:$lastName, id:$id}){
+        status
+    }
+}
+`
+
 function mapStateToProps(state) {
-    const { input } = state;
+    const { input, form } = state;
     return {
         input,
+        form
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        userNameInfoInputChange: input => {
-            dispatch(userNameInfoInputChange(input.currentTarget));
+        fetchAppRequest: () => {
+            dispatch(fetchApp());
         }
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(graphql(getUsersUserByID, {
-    options: props => ({
-        variables:  {
-            id: +props.match.params.id
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    graphql(getUsersUserByID, {
+        name: 'getUserById',
+        options: props => ({
+            variables: {
+                id: +props.match.params.id
+            }
+        })
+    }),
+    graphql(mutateUserByID, {
+        name: 'mutateUserById',
+        options: {
+            refetchQueries: [
+                'getAllUsers'
+            ]
         }
-    })   
-})(User));
+    })
+)(User);

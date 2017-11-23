@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const additionalInfo = ({data: {allAuthUsers, error, loading}}) => {
+const additionalInfo = ({allAuthUsers, error, loading}) => {
     if (loading) {
         return <h2>Loading..</h2>;
     }
@@ -28,15 +28,22 @@ const additionalInfo = ({data: {allAuthUsers, error, loading}}) => {
 
 class Logged extends Component {
     render() {
-        const {user_name, last_visit} = this.props.fetchApp;
+        const {last_visit} = this.props.fetchApp;
+        const {allAuthUsers, loading, error} = this.props.getLoggedUser;
+        if (loading) {
+            return <h1>Loading...</h1>
+        }
+        if (error) {
+            return <h1>Error: {error.message}</h1>
+        }
         return (
             <div>
                 <div className="title">
-                    <h1>Hello {user_name}</h1>
+                    <h1>Hello {allAuthUsers.edges[0].node.userName}</h1>
                 </div>
                 <div className="body">
                     <p>Your last visit was at: {last_visit}</p>
-                    {additionalInfo(this.props)}
+                    {additionalInfo(this.props.getLoggedUser)}
                 </div>
                 <Link to="/users">Users</Link>
             </div>
@@ -52,8 +59,8 @@ function mapStateToProps(state) {
     };
 }
 const getUser = gql`
-query getUser($userName: String){
-    allAuthUsers(userName:$userName){
+query getUser($id: Int!){
+    allAuthUsers(ID:$id){
       edges{
         node{
           userName
@@ -67,10 +74,17 @@ query getUser($userName: String){
   }
 `
 
-export default connect(mapStateToProps)(graphql(getUser, {
-    options: props => ({
-        variables: {
-            userName: props.fetchApp.user_name
-        }
+export default compose(
+    connect(mapStateToProps),
+    graphql(getUser, {
+        name: 'getLoggedUser',
+        options: props => ({
+            variables: {
+                id: props.fetchApp.user_id
+            }
+        })
     })
-})(Logged));
+)(Logged);
+
+// export default connect(mapStateToProps)(
+// })(Logged));
